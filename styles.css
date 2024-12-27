@@ -1,0 +1,35 @@
+body, html {
+    background-color: SlateGrey;
+}
+
+.cards {
+    height: 150px;
+    width: 100px;
+    background-color: white;
+    border-radius: 4%;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    margin: 5px;
+    transition: 0.2s;
+    cursor: pointer;
+    font-size: 50px;
+    text-align: center;
+}
+
+.cards:hover { transform: scale(1.1); }
+
+.cards:active { transform: scale(0.9); }
+
+#hand {
+    display: flex;
+    height: 200px;
+    width: 1000px;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    left: 0;
+    bottom: 10%;
+    width: 100%;
+    
+    transition: 0.2s;
+}
