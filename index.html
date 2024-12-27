@@ -7,13 +7,21 @@
     <script src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body onload="loadDeck()">
+<body onload="createDeck()">
+
+    <div id="deckPile">
+
+    </div>
 
     <div id="hand">
 
     </div>
 
-<button onclick="loadHand()">Get Cards</button>
+    <div id="discardPile">
+
+    </div>
+
+<button onclick="addCards()">Draw</button>
 <button onclick="discardCard()">Discard</button>
     
 </body>

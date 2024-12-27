@@ -17,7 +17,10 @@ body, html {
 
 .cards:hover { transform: scale(1.1); }
 
-.cards:active { transform: scale(0.9); }
+.cards:active { 
+    transform: scale(1.5); 
+    transform: translate(0, -20px)
+}
 
 #hand {
     display: flex;
