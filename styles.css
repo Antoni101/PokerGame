@@ -1,5 +1,5 @@
 body, html {
-    background-color: SlateGrey;
+    background-color: DarkKhaki;
 }
 
 .cards {
@@ -11,7 +11,7 @@ body, html {
     margin: 5px;
     transition: 0.2s;
     cursor: pointer;
-    font-size: 50px;
+    font-size: 65px;
     text-align: center;
 }
 
