@@ -1,5 +1,8 @@
 body, html {
     background-color: DarkKhaki;
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .cards {
@@ -9,13 +12,17 @@ body, html {
     border-radius: 4%;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     margin: 5px;
-    transition: 0.2s;
     cursor: pointer;
-    font-size: 65px;
+    font-size: 50px;
     text-align: center;
+    transition: 0.15s;
+    opacity: 0.9;
 }
 
-.cards:hover { transform: scale(1.1); }
+.cards:hover {
+    transform: scale(1.1); 
+    opacity: 1.0;
+}
 
 .cards:active { 
     transform: scale(1.5); 
@@ -33,6 +40,4 @@ body, html {
     left: 0;
     bottom: 10%;
     width: 100%;
-    
-    transition: 0.2s;
 }

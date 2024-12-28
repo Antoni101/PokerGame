@@ -81,7 +81,7 @@ function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
     for (let i = 0; i < player.maxDeck; i++) {
         player.deck.push(createCard());
     }
-    console.log(player.deck);
+    updateTxt();
 }
 
 function addCards() { /* ADDING CARDS TO HAND IF THERE IS SPACE */
@@ -89,12 +89,15 @@ function addCards() { /* ADDING CARDS TO HAND IF THERE IS SPACE */
         console.log("No space in hand");
     }
     else {
+        let timerCounter = 200;
         for (let i = player.hand.length; i < player.maxHand; i++) {
             if (player.deck.length > 0) {
-                let getCard = player.deck.shift();
-                player.hand.push(getCard);    
-                newCard(i)               
-                console.log("Card Added (" + player.hand.length + "/" + player.maxHand + ")");
+                setTimeout(function() {
+                    let getCard = player.deck.shift();
+                    player.hand.push(getCard);    
+                    newCard(i);
+                }, timerCounter);  
+                timerCounter += 200;
             }
             else {
                 console.log("No cards left in deck");
@@ -118,21 +121,27 @@ function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
     let card = document.getElementById(i);
 
     if (player.hand[i].suit == "Heart") {
-        card.style.color = "IndianRed"; 
+        card.style.color = "Red"; 
+        card.style.border = "4px solid Red";
         card.innerHTML += "♥️";
     }
     else if (player.hand[i].suit == "Diamond") {
-        card.style.color = "IndianRed"; 
-        card.innerHTML += "♦️";
+        card.style.color = "CornflowerBlue"; 
+        card.style.border = "4px solid CornflowerBlue";
+        card.innerHTML += "🔷";
     }
     else if (player.hand[i].suit == "Spade") {
-        card.style.color = "DarkSlateGrey"; 
+        card.style.color = "SaddleBrown"; 
+        card.style.border = "4px solid SaddleBrown";
         card.innerHTML += "♠️";
     }
     else if (player.hand[i].suit == "Club") {
         card.style.color = "DarkSlateGrey"; 
+        card.style.border = "4px solid DarkSlateGrey";
         card.innerHTML += "♣️";
     }
+
+    updateTxt();
 }
 
 function cardCount() { // RETURNS AMOUNT OF CARDS ON SCREEN NOT IN ARRAY
