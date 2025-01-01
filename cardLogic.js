@@ -130,32 +130,24 @@ function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
 
     let card = document.getElementById(i);
 
-    if (player.hand[i].suit == "Heart") {
-        card.style.color = "Red"; 
-        card.style.border = "4px solid Red";
-        card.innerHTML += "♥️";
+    if (player.hand[i].suit == "Heart") { /* CHANGE CARD CSS BASED ON SUIT */
+        card.style.color = "Red";  card.style.border = "4px solid Red"; card.innerHTML += "♥️";
     }
     else if (player.hand[i].suit == "Diamond") {
-        card.style.color = "CornflowerBlue"; 
-        card.style.border = "4px solid CornflowerBlue";
-        card.innerHTML += "🔷";
+        card.style.color = "CornflowerBlue"; card.style.border = "4px solid CornflowerBlue"; card.innerHTML += "🔷";
     }
     else if (player.hand[i].suit == "Spade") {
-        card.style.color = "SaddleBrown"; 
-        card.style.border = "4px solid SaddleBrown";
-        card.innerHTML += "♠️";
+        card.style.color = "SaddleBrown"; card.style.border = "4px solid SaddleBrown"; card.innerHTML += "♠️";
     }
     else if (player.hand[i].suit == "Club") {
-        card.style.color = "DarkSlateGrey"; 
-        card.style.border = "4px solid DarkSlateGrey";
-        card.innerHTML += "♣️";
+        card.style.color = "DarkSlateGrey"; card.style.border = "4px solid DarkSlateGrey";card.innerHTML += "♣️";
     }
 
     drawSound.play(); /* PLAY AUDIO WHEN CARD IS ADDED */
     updateTxt();
 }
 
-function cardCount() { // RETURNS AMOUNT OF CARDS ON SCREEN NOT IN ARRAY
+function cardCount() { // RETURNS AMOUNT OF CARDS IN HAND SCREEN NOT IN ARRAY
     let hand = document.getElementById("hand");
     let children = hand.children;
     return children.length;

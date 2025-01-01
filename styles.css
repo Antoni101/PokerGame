@@ -3,19 +3,6 @@ body, html {
     font-style: normal;
 }
 
-.libre-font {
-    font-family: "Libre Baskerville", serif;
-    font-weight: 200;
-    font-style: normal;
-}
-
-.noto-sans-font {
-    font-family: "Noto Sans PhagsPa", serif;
-    font-weight: 500;
-    font-style: bold;
-}
-  
-
 .cards {
     height: 150px;
     width: 100px;
@@ -58,8 +45,8 @@ body, html {
     width: 100px;
 
     position: fixed;
-    left: 90%;
-    bottom: 25%;
+    left: 80%;
+    bottom: 45%;
     transition: 0.2s;
 }
 
@@ -75,28 +62,18 @@ body, html {
     transform: scale(1.5); 
 }
 
-#deckTxt {
+
+.stats {
     position: fixed;
     left: 5%;
-    bottom: 30%;
+    bottom: 80%;
+    font-size: 20px;
     width: 100%;
-    font-size: 30px;
+    display: block;
 }
 
-
-
-#chipTxt {
-    position: fixed;
-    left: 5%;
-    bottom: 35%;
-    width: 100%;
-    font-size: 30px;
+.stats b {
+    display: block;
+    margin-bottom: 10px; /* Optional spacing between lines */
 }
 
-#discardTxt {
-    position: fixed;
-    left: 5%;
-    bottom: 40%;
-    width: 100%;
-    font-size: 30px;
-}

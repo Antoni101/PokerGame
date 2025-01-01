@@ -1,0 +1,17 @@
+.libre-font {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.noto-sans-font {
+    font-family: "Noto Sans PhagsPa", serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.barlow-font {
+    font-family: "Barlow", serif;
+    font-weight: 400;
+    font-style: normal;
+}
