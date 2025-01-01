@@ -5,32 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="cardLogic.js"></script>
-    <script src="display.js"></script>
+    <script src="check.js"></script>
     <link rel="stylesheet" href="styles.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+PhagsPa&display=swap" rel="stylesheet">
 </head>
 <body onload="createDeck()">
 
-    <b id="deckTxt">Deck</b>
-    <b id="discardTxt">Discarded</b>
-    <b id="handTxt">Hand</b>
-    <div class="gameBtn" id="deckPile">
+    <audio id="myAudio">
+        <source src="audio/drawCard.mp3" type="audio/mpeg">
+    </audio>
 
-    </div>
+    <b id="deckTxt" class="noto-sans-font">Deck</b>
+    <b id="discardTxt" class="noto-sans-font">Discarded</b>
+    <b id="chipTxt" class="noto-sans-font">Hand</b>
 
-    <div class="gameBtn" id="hand">
+    <div class="deckPile" id="deckPile"></div>
 
-    </div>
+    <div class="playPile" id="playPile"></div>
 
-    <div class="gameBtn" id="discardPile">
+    <div class="libre-font" id="hand"></div>
 
-    </div>
+    <div class="discardPile" id="discardPile"></div>
 
 <button onclick="addCards()">Draw</button>
-<button onclick="discardCard()">Discard</button>
+<button onclick="pushHand(player.discards, 'discardPile')">Discard</button>
 <button onclick="playCard()">Play</button>
     
 </body>

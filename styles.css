@@ -1,9 +1,20 @@
 body, html {
-    background-color: DarkKhaki;
-    font-family: "Libre Baskerville", serif;
-    font-weight: 400;
+    background-color: Moccasin;
     font-style: normal;
 }
+
+.libre-font {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.noto-sans-font {
+    font-family: "Noto Sans PhagsPa", serif;
+    font-weight: 500;
+    font-style: bold;
+}
+  
 
 .cards {
     height: 150px;
@@ -16,17 +27,17 @@ body, html {
     font-size: 50px;
     text-align: center;
     transition: 0.15s;
-    opacity: 0.9;
+    position: relative;
 }
+
 
 .cards:hover {
     transform: scale(1.1); 
-    opacity: 1.0;
 }
 
 .cards:active { 
     transform: scale(1.5); 
-    transform: translate(0, -20px)
+    transform: translate(0, -20px);
 }
 
 #hand {
@@ -40,4 +51,52 @@ body, html {
     left: 0;
     bottom: 10%;
     width: 100%;
+}
+
+#discardPile {
+    height: 150px;
+    width: 100px;
+
+    position: fixed;
+    left: 90%;
+    bottom: 25%;
+    transition: 0.2s;
+}
+
+.discardPilecard {
+    position: absolute; /* Stack on top of each other */
+    top: 0; /* Base position */
+    left: 0;
+    transition: 0.5s;
+}
+
+.discardPilecard:hover {
+    z-index: 10;
+    transform: scale(1.5); 
+}
+
+#deckTxt {
+    position: fixed;
+    left: 5%;
+    bottom: 30%;
+    width: 100%;
+    font-size: 30px;
+}
+
+
+
+#chipTxt {
+    position: fixed;
+    left: 5%;
+    bottom: 35%;
+    width: 100%;
+    font-size: 30px;
+}
+
+#discardTxt {
+    position: fixed;
+    left: 5%;
+    bottom: 40%;
+    width: 100%;
+    font-size: 30px;
 }

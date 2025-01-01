@@ -28,11 +28,14 @@ let player = {
     deck: [],
     discards: [],
     upgrades: [],
+    selected: [],
     handSize: 0,
     maxHand: 7,
     maxDeck: 25,
     chips: 0
 };
+
+let drawSound;
 
 function updateHand() {
     let hand = document.getElementById("hand");
@@ -43,18 +46,24 @@ function updateHand() {
     }
 }
 
-function discardCard() {
+function pushHand(newArray, newPile) { // MOVE CARD FROM HAND TO SPECIFIC PILE OR ARRAY ex: DISCARD OR PLAY
     for (let i = player.hand.length - 1; i >= 0; i--) {
         if (player.hand[i].active == true) { // IF CARD IS SELECTED
             //console.log(player.hand[i]);
             player.hand[i].active = false;
-            player.discards.push(moveCard(i, player.hand)); // PUSHES CARD TO NEW ARRAY
-            document.getElementById(i).remove()
+            newArray.push(moveCard(i, player.hand)); // PUSHES CARD TO NEW ARRAY
+
+            let card = document.getElementById(i);
+
+            document.getElementById(`${newPile}`).appendChild(card);
+            card.classList.add(`${newPile}` + "card");
+            card.style.top = `${newArray.length}0px`;
+            card.style.transform = "translate(0, 0)";
         }
     }
-    console.log(player.hand);
-
     updateHand();
+    updateTxt();
+    console.log(newArray);
 }
 
 function moveCard(cardNum, oldArray) { //TAKES CARD AND MOVES FROM CURRENT ARRAY TO NEW ONE    
@@ -82,6 +91,7 @@ function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
         player.deck.push(createCard());
     }
     updateTxt();
+    drawSound = document.getElementById("myAudio"); 
 }
 
 function addCards() { /* ADDING CARDS TO HAND IF THERE IS SPACE */
@@ -97,7 +107,7 @@ function addCards() { /* ADDING CARDS TO HAND IF THERE IS SPACE */
                     player.hand.push(getCard);    
                     newCard(i);
                 }, timerCounter);  
-                timerCounter += 200;
+                timerCounter += 350;
             }
             else {
                 console.log("No cards left in deck");
@@ -141,6 +151,7 @@ function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
         card.innerHTML += "♣️";
     }
 
+    drawSound.play(); /* PLAY AUDIO WHEN CARD IS ADDED */
     updateTxt();
 }
 
@@ -161,6 +172,10 @@ function selectCard(cardNum) { /* SELECTS OR DESELECTS CARD ONCLICK */
     }
 }
 
-function playCard() {
-    console.log("...")
+function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
+
+    document.getElementById("deckTxt").innerHTML = "Deck: " + player.deck.length + "/" + player.maxDeck;
+    document.getElementById("chipTxt").innerHTML = "Chips: " + player.chips;
+    document.getElementById("discardTxt").innerHTML = "Discarded: " + player.discards.length;
+
 }
