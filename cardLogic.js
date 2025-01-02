@@ -31,34 +31,52 @@ let player = {
     selected: [],
     handSize: 0,
     maxHand: 7,
-    maxDeck: 25,
+    maxDeck: 0,
     chips: 0
 };
 
-let drawSound;
+function startGame() {
+    let startBtn = document.getElementById("startBtn");
+    startBtn.style.transform = "scale(0.1)";
+    setTimeout(function() {
+        startBtn.style.display = "None";
+    }, 100);
 
-function updateHand() {
-    let hand = document.getElementById("hand");
-    let children = hand.children;
-    for (let i = 0; i < children.length; i++) {
-        children[i].id = i;
-        children[i].setAttribute("onclick", `selectCard(${i})`);
-    }
+
+    setTimeout(function() {
+        opacityTransition(true, document.getElementById("game"), 30);
+        createDeck();
+    }, 300);
 }
 
-function pushHand(newArray, newPile) { // MOVE CARD FROM HAND TO SPECIFIC PILE OR ARRAY ex: DISCARD OR PLAY
+
+function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
+
+    let counter = 50; 
+    let startDeck = 25; 
+    for (let i = 0; i < startDeck; i++) {
+        setTimeout(function() {
+            player.deck.push(createCard());
+            player.maxDeck = player.deck.length;
+            updateTxt();
+        }, counter);
+        counter += 50;
+    }
+
+    setTimeout(function() {
+        loadHand();
+        updateTxt();
+    }, counter + 500);
+}
+
+function pushCard(newArray) { // MOVE CARD FROM HAND TO SPECIFIC PILE OR ARRAY ex: DISCARD OR PLAY
     for (let i = player.hand.length - 1; i >= 0; i--) {
         if (player.hand[i].active == true) { // IF CARD IS SELECTED
             //console.log(player.hand[i]);
             player.hand[i].active = false;
             newArray.push(moveCard(i, player.hand)); // PUSHES CARD TO NEW ARRAY
 
-            let card = document.getElementById(i);
-
-            document.getElementById(`${newPile}`).appendChild(card);
-            card.classList.add(`${newPile}` + "card");
-            card.style.top = `${newArray.length}0px`;
-            card.style.transform = "translate(0, 0)";
+            document.getElementById(i).remove();
         }
     }
     updateHand();
@@ -86,37 +104,44 @@ function createCard() { /* CREATE RANDOM CARD */
     return randomCard;
 }
 
-function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
-    for (let i = 0; i < player.maxDeck; i++) {
-        player.deck.push(createCard());
+
+
+function loadHand() {
+
+    let counter = 100;
+    for (let i = 0; i < player.maxHand; i++) {
+        setTimeout(function() {
+            drawCard();
+        },counter)
+        counter += 100;
     }
-    updateTxt();
-    drawSound = document.getElementById("myAudio"); 
 }
 
-function addCards() { /* ADDING CARDS TO HAND IF THERE IS SPACE */
-    if (player.hand.length >= player.maxHand) {
+
+function drawCard() { /* DRAW CARDS IF SPACE IN HAND / DECK */
+
+    let drawSound = new Audio('audio/drawCard.mp3');
+
+    if ( player.hand.length < player.maxHand && player.deck.length > 0 ) {
+
+        let drawSound = new Audio('audio/drawCard.mp3');
+        drawSound.play(); /* PLAY AUDIO WHEN CARD IS ADDED */
+
+        let getCard = player.deck.shift();
+        player.hand.push(getCard);   
+        console.log(player.hand.length) 
+        newCard(player.hand.length - 1);
+    }
+    else if (player.hand.length >= player.maxHand) {
         console.log("No space in hand");
+        popTransition(document.getElementById("handTxt"), 0.2, 150);
     }
-    else {
-        let timerCounter = 200;
-        for (let i = player.hand.length; i < player.maxHand; i++) {
-            if (player.deck.length > 0) {
-                setTimeout(function() {
-                    let getCard = player.deck.shift();
-                    player.hand.push(getCard);    
-                    newCard(i);
-                }, timerCounter);  
-                timerCounter += 350;
-            }
-            else {
-                console.log("No cards left in deck");
-            }
-        }
+    else if (player.deck.length <= 0) {
+        console.log("No space in deck");
+        popTransition(document.getElementById("deckTxt"), 0.2, 150);
     }
-
-    console.log("Cards left in deck: " + player.deck.length);
 }
+
 
 function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
     document.getElementById("hand").innerHTML += `
@@ -124,27 +149,35 @@ function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
             class="cards"
             onclick="selectCard(${i})"
             id="${i}">
-            ${player.hand[i].rank}
+            <p class="topTxt">${player.hand[i].rank}</p>
+            <p id="suit${i}"class="cardSuit"></p>
+            <p class="bottomTxt">${player.hand[i].rank}</p>
         </div>
     `;
 
+    let suit = document.getElementById(`suit${i}`);
     let card = document.getElementById(i);
 
-    if (player.hand[i].suit == "Heart") { /* CHANGE CARD CSS BASED ON SUIT */
-        card.style.color = "Red";  card.style.border = "4px solid Red"; card.innerHTML += "♥️";
-    }
-    else if (player.hand[i].suit == "Diamond") {
-        card.style.color = "CornflowerBlue"; card.style.border = "4px solid CornflowerBlue"; card.innerHTML += "🔷";
-    }
-    else if (player.hand[i].suit == "Spade") {
-        card.style.color = "SaddleBrown"; card.style.border = "4px solid SaddleBrown"; card.innerHTML += "♠️";
-    }
-    else if (player.hand[i].suit == "Club") {
-        card.style.color = "DarkSlateGrey"; card.style.border = "4px solid DarkSlateGrey";card.innerHTML += "♣️";
-    }
+    /* CHANGE CARD CSS BASED ON SUIT */
+    card.classList.add(`${player.hand[i].suit}`);
 
-    drawSound.play(); /* PLAY AUDIO WHEN CARD IS ADDED */
+    if (player.hand[i].suit == "Heart") { suit.innerHTML = "♥"; }
+    else if (player.hand[i].suit == "Diamond") { suit.innerHTML = "♦"; }
+    else if (player.hand[i].suit == "Spade") { suit.innerHTML = "♠"; }
+    else if (player.hand[i].suit == "Club") { suit.innerHTML = "♣";}
+
     updateTxt();
+}
+
+function updateHand() {
+    let hand = document.getElementById("hand");
+    let children = hand.children;
+    for (let i = 0; i < children.length; i++) {
+        let childrenSuit = children[i].children;
+        childrenSuit[1].id = i;
+        children[i].id = i;
+        children[i].setAttribute("onclick", `selectCard(${i})`);
+    }
 }
 
 function cardCount() { // RETURNS AMOUNT OF CARDS IN HAND SCREEN NOT IN ARRAY
@@ -167,7 +200,64 @@ function selectCard(cardNum) { /* SELECTS OR DESELECTS CARD ONCLICK */
 function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
 
     document.getElementById("deckTxt").innerHTML = "Deck: " + player.deck.length + "/" + player.maxDeck;
+    document.getElementById("handTxt").innerHTML = "Hand: " + player.hand.length + "/" + player.maxHand;
     document.getElementById("chipTxt").innerHTML = "Chips: " + player.chips;
     document.getElementById("discardTxt").innerHTML = "Discarded: " + player.discards.length;
 
+}
+
+
+/* POP TRANSITION
+arg1: element id: document.getElement... 
+arg2: speed: 0.1-0.9
+arg3: duration: 250-2000 */
+function popTransition(element, speed, duration) {
+    element.style.transition = `${speed}s`;
+    element.style.transform = "scale(1.03)";
+    element.style.color = "Red";
+    setTimeout(function() {
+        element.style.transform = "scale(1.0)";
+        element.style.color = "Black";
+    }, duration);
+}
+
+
+
+/* ELEMENT FADE IN / OUT TRANSITION 
+arg1: true/false: fadein/out 
+arg2: element id: document.getElement... 
+arg3: speed: 10-50 
+opacityTransition(true, document.getElement... , 30) */
+function opacityTransition(makeVisible, e, speed) {
+    console.log(makeVisible, e);
+    let opacityAnimation;
+    let opacity;
+    if (makeVisible == true) {
+        e.style.display = "Block";
+        e.style.opacity = 0.0;
+        opacity = parseInt(e.style.opacity);
+        opacityAnimation = setInterval(function () {
+            if (opacity < 1.0) {
+                opacity += .1;
+            }
+            else {
+                clearInterval(opacityAnimation); 
+            }
+            e.style.opacity = opacity;
+        }, speed);
+    }
+    else {
+        e.style.opacity = 1.0;
+        opacity = parseInt(e.style.opacity);
+        opacityAnimation = setInterval(function () {
+            if (opacity > 0) {
+                opacity -= .1;
+            }
+            else {
+                e.style.display = "None";
+                clearInterval(opacityAnimation); 
+            }
+            e.style.opacity = opacity;
+        }, speed);
+    } 
 }

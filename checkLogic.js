@@ -2,8 +2,8 @@
 
 
 function playCard() {
-    pushHand(player.selected);
-    checkHands();
+    //pushHand(player.selected);
+    //checkHands();
 }
 
 function checkHands(playedCards) {

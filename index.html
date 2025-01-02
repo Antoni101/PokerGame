@@ -13,29 +13,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+PhagsPa&display=swap" rel="stylesheet">   
 </head>
-<body onload="createDeck()">
+<body>
 
-    <audio id="myAudio">
-        <source src="audio/drawCard.mp3" type="audio/mpeg">
-    </audio>
+    <div id="game">
+        <div class="stats">
+            <b class="barlow-font" id="deckTxt">Deck 0/0</b>
+            <b class="barlow-font" id="handTxt">Hand 0/0</b>
+            <b class="barlow-font" id="discardTxt">Discarded 0</b>
+            <b class="barlow-font" id="chipTxt">Hand 0</b>
+        </div>
 
-    <div class="stats">
-        <b class="barlow-font" id="deckTxt">Deck</b>
-        <b class="barlow-font" id="discardTxt">Discarded</b>
-        <b class="barlow-font" id="chipTxt">Hand</b>
+
+        <div class="playPile" id="playPile"></div>
+
+        <div class="libre-font" id="hand">
+        </div>
+
+        <div id="options">
+            <button onclick="drawCard()">Draw</button>
+            <button onclick="pushCard(player.discards)">Discard</button>
+            <button onclick="playCard()">Play</button>
+        </div>
     </div>
 
-    <div class="deckPile" id="deckPile"></div>
-
-    <div class="playPile" id="playPile"></div>
-
-    <div class="libre-font" id="hand"></div>
-
-    <div class="discardPile" id="discardPile"></div>
-
-    <button onclick="addCards()">Draw</button>
-    <button onclick="pushHand(player.discards, 'discardPile')">Discard</button>
-    <button onclick="playCard()">Play</button>
+    <button id="startBtn" onclick="startGame()">Start</button>
     
 </body>
 </html>

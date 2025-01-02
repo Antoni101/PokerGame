@@ -1,79 +1,72 @@
 body, html {
-    background-color: Moccasin;
-    font-style: normal;
+    background-color: Thistle;
 }
 
+#game {
+    display: none; 
+    
+}
+
+#startBtn {
+    padding: 10px 40px;
+    font-size: 36px;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#startBtn:hover {
+    transform: scale(1.1); 
+}
+
+#startBtn:active {
+    transform: scale(1.0); 
+}
+  
+
 .cards {
+    position: relative;
     height: 150px;
     width: 100px;
     background-color: white;
     border-radius: 4%;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    margin: 5px;
+    margin: 2px;
     cursor: pointer;
-    font-size: 50px;
+    font-size: 30px;
     text-align: center;
-    transition: 0.15s;
-    position: relative;
+    transition: 0.15s;    
+    
 }
-
-
-.cards:hover {
-    transform: scale(1.1); 
-}
-
-.cards:active { 
-    transform: scale(1.5); 
-    transform: translate(0, -20px);
-}
-
-#hand {
-    display: flex;
-    height: 200px;
-    width: 1000px;
-    justify-content: center;
-    align-items: center;
-
-    position: fixed;
+.topTxt{
+    position: absolute;
+    top: 0;
     left: 0;
-    bottom: 10%;
-    width: 100%;
+    margin: 0;
+    padding: 10%;
 }
 
-#discardPile {
-    height: 150px;
-    width: 100px;
+.bottomTxt{
 
-    position: fixed;
-    left: 80%;
-    bottom: 45%;
-    transition: 0.2s;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* USE THIS FOR COMPATABILITY ISSUES IF NEEDED
+    -moz-transform: scale(1, -1);
+    -webkit-transform: scale(1, -1);
+    -o-transform: scale(1, -1);
+    -ms-transform: scale(1, -1); */
+    transform: scale(1, -1);
+    margin: 0;
+    padding: 10%;
 }
 
-.discardPilecard {
-    position: absolute; /* Stack on top of each other */
-    top: 0; /* Base position */
-    left: 0;
-    transition: 0.5s;
-}
-
-.discardPilecard:hover {
-    z-index: 10;
-    transform: scale(1.5); 
-}
-
-
-.stats {
-    position: fixed;
-    left: 5%;
-    bottom: 80%;
-    font-size: 20px;
-    width: 100%;
-    display: block;
-}
-
-.stats b {
-    display: block;
-    margin-bottom: 10px; /* Optional spacing between lines */
-}
-
+.cardSuit {
+    margin: 0;
+    padding: 10%; /* You can adjust or remove this for spacing */
+    position: absolute;
+    top: 50%;
+ 
