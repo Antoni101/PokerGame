@@ -16,6 +16,7 @@
 <body>
 
     <div id="game">
+
         <div class="stats">
             <b class="barlow-font" id="deckTxt">Deck 0/0</b>
             <b class="barlow-font" id="handTxt">Hand 0/0</b>
@@ -32,11 +33,16 @@
         <div id="options">
             <button onclick="drawCard()">Draw</button>
             <button onclick="pushCard(player.discards)">Discard</button>
-            <button onclick="playCard()">Play</button>
+            <button onclick="playCards()">Play</button>
+            <button id="audioBtn" onclick="configAudio()">Audio ON</button>
         </div>
     </div>
 
     <button id="startBtn" onclick="startGame()">Start</button>
+
+    <video autoplay muted loop id="backgroundVideo">
+        <source src="rain.mp4" type="video/mp4">
+    </video>
     
 </body>
 </html>

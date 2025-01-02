@@ -28,15 +28,18 @@ let player = {
     deck: [],
     discards: [],
     upgrades: [],
-    selected: [],
     handSize: 0,
     maxHand: 7,
     maxDeck: 0,
     chips: 0
 };
 
+let canPlay = true; // DEFAULT AUDIO ENABLED
+
 function startGame() {
     let startBtn = document.getElementById("startBtn");
+    let game = document.getElementById("game");
+    //document.body.style.backgroundColor = "Turquoise";
     startBtn.style.transform = "scale(0.1)";
     setTimeout(function() {
         startBtn.style.display = "None";
@@ -53,11 +56,12 @@ function startGame() {
 function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
 
     let counter = 50; 
-    let startDeck = 25; 
+    let startDeck = 35; 
     for (let i = 0; i < startDeck; i++) {
         setTimeout(function() {
             player.deck.push(createCard());
             player.maxDeck = player.deck.length;
+            playSound("drawCard");
             updateTxt();
         }, counter);
         counter += 50;
@@ -81,7 +85,6 @@ function pushCard(newArray) { // MOVE CARD FROM HAND TO SPECIFIC PILE OR ARRAY e
     }
     updateHand();
     updateTxt();
-    console.log(newArray);
 }
 
 function moveCard(cardNum, oldArray) { //TAKES CARD AND MOVES FROM CURRENT ARRAY TO NEW ONE    
@@ -120,16 +123,13 @@ function loadHand() {
 
 function drawCard() { /* DRAW CARDS IF SPACE IN HAND / DECK */
 
-    let drawSound = new Audio('audio/drawCard.mp3');
-
     if ( player.hand.length < player.maxHand && player.deck.length > 0 ) {
 
-        let drawSound = new Audio('audio/drawCard.mp3');
-        drawSound.play(); /* PLAY AUDIO WHEN CARD IS ADDED */
+        playSound("drawCard");
 
         let getCard = player.deck.shift();
         player.hand.push(getCard);   
-        console.log(player.hand.length) 
+        //console.log(player.hand.length) 
         newCard(player.hand.length - 1);
     }
     else if (player.hand.length >= player.maxHand) {
@@ -187,14 +187,31 @@ function cardCount() { // RETURNS AMOUNT OF CARDS IN HAND SCREEN NOT IN ARRAY
 }
 
 function selectCard(cardNum) { /* SELECTS OR DESELECTS CARD ONCLICK */
+
+    playSound("selectCard");
+
+    let count = getActiveCount();
+
     if (player.hand[cardNum].active == true) {
         document.getElementById(`${cardNum}`).style.transform = "";
         player.hand[cardNum].active = false;
     }
     else {
-        document.getElementById(`${cardNum}`).style.transform = "translate(0, -30px)";
-        player.hand[cardNum].active = true;
+        if (count < 5) {
+            document.getElementById(`${cardNum}`).style.transform = "translate(0, -80px)";
+            player.hand[cardNum].active = true;
+        }
     }
+}
+
+function getActiveCount() {
+    let activeCards = 0;
+    for (i = 0; i < player.hand.length; i++) {
+        if (player.hand[i].active == true) {
+            activeCards += 1;
+        }
+    }
+    return activeCards;
 }
 
 function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
@@ -204,6 +221,30 @@ function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
     document.getElementById("chipTxt").innerHTML = "Chips: " + player.chips;
     document.getElementById("discardTxt").innerHTML = "Discarded: " + player.discards.length;
 
+}
+
+function configAudio() {
+    let btn = document.getElementById("audioBtn");
+    if (canPlay == true) {
+        canPlay = false;
+        btn.innerHTML = "Audio OFF";
+    }
+    else {
+        canPlay = true;
+        btn.innerHTML = "Audio ON";
+    }
+}
+
+function playSound(audioFile) {
+    if (canPlay == true) {
+        let doSound = new Audio(`audio/${audioFile}.mp3`);
+        doSound.play();
+    }
+}
+
+function playMusic(audioFile) {
+    let doSound = new Audio(`music/${audioFile}.mp3`);
+    doSound.play();
 }
 
 
@@ -229,7 +270,7 @@ arg2: element id: document.getElement...
 arg3: speed: 10-50 
 opacityTransition(true, document.getElement... , 30) */
 function opacityTransition(makeVisible, e, speed) {
-    console.log(makeVisible, e);
+    //console.log(makeVisible, e);
     let opacityAnimation;
     let opacity;
     if (makeVisible == true) {
