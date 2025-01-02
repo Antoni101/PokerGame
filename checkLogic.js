@@ -1,16 +1,16 @@
 
 const flushCount = 5;
 
-function playCards() {
+function playCards() { /* ONCE PLAYER PRESS THE PLAY CARDS BUTTON */
     let selected = [];
  
-    for (i = 0; i < player.hand.length; i++) {
+    for (i = 0; i < player.hand.length; i++) { /* GOES THROUGH THE HAND AND CHECKS WHICH ONES WERE SELECTED */
         if (player.hand[i].active == true) {
             selected.push(player.hand[i]);
         }
     }
 
-    if (selected.length > 0) {
+    if (selected.length > 0) { /* CHECKS IF PLAYER EVEN SELECTED A SINGLE CARD */
         checkHands(selected);
     }
     else {
