@@ -7,5 +7,4 @@ function playCard() {
 }
 
 function checkHands(playedCards) {
-    console.log("...");
-}
+    console.log("...")
