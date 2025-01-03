@@ -1,3 +1,6 @@
+
+
+
 function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
 
     document.getElementById("deckTxt").innerHTML = "Deck: " + player.deck.length + "/" + player.maxDeck;
@@ -7,7 +10,7 @@ function updateTxt() { /* UPDATE TEXT VALUES ON THE PAGE FOR USER TO SEE */
 
 }
 
-function configAudio() {
+function configAudio() { // AUDIO BUTTON CONTROLS
     let btn = document.getElementById("audioBtn");
     if (canPlay == true) {
         canPlay = false;
@@ -19,7 +22,7 @@ function configAudio() {
     }
 }
 
-function playSound(audioFile) {
+function playSound(audioFile) { //TAKES SOUND FILE ARG AND PLAYS IT
     if (canPlay == true) {
         let doSound = new Audio(`audio/${audioFile}.mp3`);
         doSound.play();

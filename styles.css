@@ -111,6 +111,11 @@ html, body {
     border: 2px solid SaddleBrown;
 }
 
+.match {
+    border: 2.5px solid Yellow;
+    background-color: LightGoldenRodYellow;
+}
+
 #hand {
     display: flex;
     height: 200px;

@@ -1,37 +1,22 @@
 
 const suits = [
-    "Heart",
-    "Spade",
-    "Diamond",
-    "Club"
+    "Heart", "Spade", "Diamond", "Club"
 ];
 
 const ranks = [
-    { name: "2", value: 1, },
-    { name: "3", value: 2, },
-    { name: "4", value: 3, },
-    { name: "5", value: 4, },
-    { name: "6", value: 5, },
-    { name: "7", value: 6, },
-    { name: "8", value: 7, },
-    { name: "9", value: 8, },
-    { name: "10", value: 9, },
-    { name: "J", value: 10, },
-    { name: "Q", value: 11, },
-    { name: "K", value: 12, },
-    { name: "A", value: 13, },
+    { name: "2", value: 2, }, { name: "3", value: 3, },
+    { name: "4", value: 4, }, { name: "5", value: 5, },
+    { name: "6", value: 6, }, { name: "7", value: 7, },
+    { name: "8", value: 8, }, { name: "9", value: 9, },
+    { name: "10", value: 10, }, { name: "J", value: 11, },
+    { name: "Q", value: 12, }, { name: "K", value: 13, },
+    { name: "A", value: 14, },
 ]
 
 
 let player = {
-    hand: [],
-    deck: [],
-    discards: [],
-    upgrades: [],
-    handSize: 0,
-    maxHand: 7,
-    maxDeck: 0,
-    chips: 0
+    hand: [], deck: [], discards: [], upgrades: [],
+    handSize: 0, maxHand: 7, maxDeck: 0, chips: 0
 };
 
 let canPlay = true; // DEFAULT AUDIO ENABLED
@@ -39,15 +24,15 @@ let canPlay = true; // DEFAULT AUDIO ENABLED
 function startGame() {
     let startBtn = document.getElementById("startBtn");
     let game = document.getElementById("game");
-    //document.body.style.backgroundColor = "Turquoise";
-    startBtn.style.transform = "scale(0.1)";
+
+    startBtn.style.transform = "scale(0.1)"; // BUTTON POP OUT
     setTimeout(function() {
         startBtn.style.display = "None";
     }, 100);
 
 
-    setTimeout(function() {
-        opacityTransition(true, document.getElementById("game"), 30);
+    setTimeout(function() { /* CREATES DECK AFTER .3 seconds */
+        opacityTransition(true, game, 30);
         createDeck();
     }, 300);
 }
@@ -73,25 +58,31 @@ function createDeck() { /* CREATE STARTER DECK OF RANDOM CARDS */
     }, counter + 500);
 }
 
-function pushCard(newArray) { // MOVE CARD FROM HAND TO SPECIFIC PILE OR ARRAY ex: DISCARD OR PLAY
+function discardSelected() {
     for (let i = player.hand.length - 1; i >= 0; i--) {
         if (player.hand[i].active == true) { // IF CARD IS SELECTED
-            //console.log(player.hand[i]);
-            player.hand[i].active = false;
-            newArray.push(moveCard(i, player.hand)); // PUSHES CARD TO NEW ARRAY
-
-            document.getElementById(i).remove();
+            discardCard(player.hand[i]);
         }
     }
+}
+
+function discardCard(card) {
+
+    card.id.style.opacity = 0.0;
+    setTimeout(function() {
+        card.active = false;
+        card.id.remove();
+        moveCard(card, player.hand, player.discards);
+    }, 500)
+
     updateHand();
     updateTxt();
 }
 
-function moveCard(cardNum, oldArray) { //TAKES CARD AND MOVES FROM CURRENT ARRAY TO NEW ONE    
-    let card = oldArray[cardNum];
+function moveCard(card, oldArray, newArray) { //TAKES CARD AND MOVES FROM CURRENT ARRAY TO NEW ONE    
     let cardIndex = oldArray.indexOf(card); //GET CARD LOCATION OLD ARRAY    
     oldArray.splice(cardIndex, 1); //DELETES 1 CARD AT THAT LOCATION
-    return card;
+    newArray.push(card); // PUSH CARD TO NEW ARRAY
 }
 
 function createCard() { /* CREATE RANDOM CARD */
@@ -167,6 +158,7 @@ function newCard(i) { // HTML CARD DESIGN BASED ON SUIT
     else if (player.hand[i].suit == "Club") { suit.innerHTML = "♣";}
 
     updateTxt();
+    updateHand();
 }
 
 function updateHand() { /* FIXES THE CARD IDS EVERY TIME THE HAND IS MODIFIED */
@@ -177,6 +169,7 @@ function updateHand() { /* FIXES THE CARD IDS EVERY TIME THE HAND IS MODIFIED */
         childrenSuit[1].id = i;
         children[i].id = i;
         children[i].setAttribute("onclick", `selectCard(${i})`);
+        player.hand[i].id = document.getElementById(i);
     }
 }
 

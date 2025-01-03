@@ -1,8 +1,8 @@
 
-const flushCount = 5;
+let selected;
 
 function playCards() { /* ONCE PLAYER PRESS THE PLAY CARDS BUTTON */
-    let selected = [];
+    selected = [];
  
     for (i = 0; i < player.hand.length; i++) { /* GOES THROUGH THE HAND AND CHECKS WHICH ONES WERE SELECTED */
         if (player.hand[i].active == true) {
@@ -11,38 +11,20 @@ function playCards() { /* ONCE PLAYER PRESS THE PLAY CARDS BUTTON */
     }
 
     if (selected.length > 0) { /* CHECKS IF PLAYER EVEN SELECTED A SINGLE CARD */
-        checkHands(selected);
+        sortCards(selected);
     }
     else {
         console.log("No cards played");
     }
 }
 
-function findModesAndCount(arr) {
-    let freq = {}; // Count occurrences
-    let maxCount = 0;
-    let matches = [];
-
-    // Count frequencies and find the max count
-    for (let item of arr) {
-        freq[item] = (freq[item] || 0) + 1;
-        maxCount = Math.max(maxCount, freq[item]);
-    }
-
-    // Find all items with the max count
-    for (let item in freq) {
-        if (freq[item] === maxCount) {
-            matches.push(item); // Add the item to modes
-        }
-    }
-
-    return { matches, count: maxCount };
-}
-
-
-function checkHands(cards) {
-    let hearts = [], spades = [], clubs = [], diamonds = [];
-    let sortedSuits = [], sortedRanks = [];
+// MAKES ARRAYS FOR EVERY SUITS AND SORTS EVERY CARD INTO THEIR SUIT ARRAY
+function sortCards(cards) {
+    let hearts = [];
+    let spades = [];
+    let clubs = [];
+    let diamonds = [];
+    let sortedSuits = [];
 
     for (i = 0; i < cards.length; i++) {
         if (cards[i].suit == "Heart") { hearts.push(cards[i]) }
@@ -51,32 +33,37 @@ function checkHands(cards) {
         else if (cards[i].suit == "Club") { diamonds.push(cards[i]) };
     }
 
-    for (i = 0; i < cards.length; i++) {
-        sortedRanks.push(cards[i].rank)
-    }
-
-    let largestRank = findModesAndCount(sortedRanks);
-    console.log(largestRank);
-    let largestSuit = Math.max(hearts.length, spades.length, clubs.length, diamonds.length);
-
+    // RETURNS LARGEST NUMBER OF SUITS
+    let suitCount = Math.max(hearts.length, spades.length, clubs.length, diamonds.length);
+    let largestSuit = [];
+    // PUT ALL THE SUIT ARRAYS INTO ONE BIG ARRAY 
     sortedSuits.push(hearts, diamonds, spades, clubs);
 
+    // FINDS THE SUIT THE HAS THE LARGEST NUMBER
     for (i = 0; i < sortedSuits.length; i++) {
-        if (sortedSuits[i].length == largestSuit) {
+        if (sortedSuits[i].length == suitCount) {
             largestSuit = sortedSuits[i];
         }
     }
-    console.log(largestSuit);
 
-    let flush = checkFlush(largestSuit);
-
-    console.log(flush);
+    checkHands(largestSuit);
 }
 
-function checkFlush(check) {
-    let match = false
-    if (check.length == flushCount) {
-        match = true;
-    }
-    return match;
+function checkHands(suitArr) {
+    if (suitArr.length >= 2) {
+        let counter = 500;
+        for (i = 0; i < suitArr.length; i++) {
+            getChips(suitArr[i], counter);
+            counter += 100;
+        }
+    } 
+}
+
+function getChips(card, timer) { 
+    card.id.style.transform = "translate(0, -85px)";
+    card.id.classList.add("match");
+    setTimeout(function() {
+        player.chips += card.chipValue;
+        discardCard(card);
+    },timer)
 }
